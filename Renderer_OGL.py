@@ -22,7 +22,7 @@ triangleData = [-0.5, -0.5, 0.0, 1.0, 0.0, 0.0,
 
 triangleModel =  Model(triangleData)
 triangleModel.position.z = -5
-triangleModel.scale = glm.vec3(5,5,5)
+triangleModel.scale = glm.vec3(3,3,3)
 
 rend.scene.append( triangleModel )
 
@@ -46,6 +46,21 @@ while isRunning:
     if keys[K_LEFT]:
         if rend.clearColor[0] > 0.0:
             rend.clearColor[0] -= deltaTime
+            
+    if keys[K_d]:
+        rend.camPosition.x += 5 * deltaTime        
+    elif keys[K_a]:
+        rend.camPosition.x -= 5 * deltaTime
+    if keys[K_w]:
+        rend.camPosition.z -= 5 * deltaTime        
+    elif keys[K_s]:
+        rend.camPosition.z += 5 * deltaTime
+    if keys[K_q]:
+        rend.camPosition.y += 5 * deltaTime        
+    elif keys[K_e]:
+        rend.camPosition.y -= 5 * deltaTime
+        
+    triangleModel.rotation.y += 45 * deltaTime
 
     rend.render()    
     pygame.display.flip()

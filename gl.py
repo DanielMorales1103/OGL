@@ -48,12 +48,8 @@ class Renderer(object):
 
     def render(self):
         glClearColor(self.clearColor[0],self.clearColor[1],self.clearColor[2],1)
-        #glClear(int(GL_COLOR_BUFFER_BIT) | int(GL_DEPTH_BUFFER_BIT))
-        # color_buffer_bit = GL_COLOR_BUFFER_BIT
-        # depth_buffer_bit = GL_DEPTH_BUFFER_BIT
-
-        # glClear(int(color_buffer_bit) | int(depth_buffer_bit))
-        glClear(16640 | 256)
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
+        # glClear(16640 | 256)
 
         if self.activeShader is not None:
             glUseProgram(self.activeShader)
