@@ -16,20 +16,18 @@ rend = Renderer(screen)
 
 rend.setShaders(vertex_shader, fragment_shader )
 
-triangleData = [-0.5, -0.5, 0.0,   0.0, 0.0,  
-                -0.5,  0.5, 0.0,   0.0, 1.0,   
-                 0.5, -0.5, 0.0,   1.0, 0.0, 
+# triangleData = [-0.5, -0.5, 0.0,   0.0, 0.0,  
+#                 -0.5,  0.5, 0.0,   0.0, 1.0,   
+#                  0.5, -0.5, 0.0,   1.0, 0.0, 
                                              
-                 -0.5, 0.5, 0.0,   0.0, 1.0,  
-                 0.5,  0.5, 0.0,   1.0, 1.0,   
-                 0.5, -0.5, 0.0,   1.0, 0.0 ]
+#                  -0.5, 0.5, 0.0,   0.0, 1.0,  
+#                  0.5,  0.5, 0.0,   1.0, 1.0,   
+#                  0.5, -0.5, 0.0,   1.0, 0.0 ]
+model = Model(filename="dino.obj",translate=glm.vec3(0,-1,-5),rotation=glm.vec3(-60,0,-120),scale=glm.vec3(0.3,0.3,0.3))
+model.loadTexture("dino.jpg")
 
-triangleModel =  Model(triangleData)
-triangleModel.loadTexture("box.jpg")
-triangleModel.position.z = -5
-triangleModel.scale = glm.vec3(3,3,3)
 
-rend.scene.append( triangleModel )
+rend.scene.append( model )
 
 
 isRunning = True
@@ -65,7 +63,7 @@ while isRunning:
     elif keys[K_e]:
         rend.camPosition.y -= 5 * deltaTime
         
-    triangleModel.rotation.y += 45 * deltaTime
+    model.rotation.z += 45 * deltaTime
 
     rend.render()    
     pygame.display.flip()

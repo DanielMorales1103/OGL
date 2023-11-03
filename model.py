@@ -1,17 +1,94 @@
+# from pickle import OBJ
+from turtle import position
 from OpenGL.GL import * 
 from numpy import array, float32
 import glm
 import pygame
+from Object import Obj
 
 class Model(object):
-    def __init__(self,data):
+    def __init__(self,filename,translate=glm.vec3(0,0,0),rotation=glm.vec3(0,0,0),scale=glm.vec3(1,1,1)):
+        model = Obj(filename)
+        
+        data = []
+        untransformedVerts = []
+        textCoords = []
+        normals = []
+
+        for face in model.faces:
+            
+            vertCount = len(face)
+            v0 = model.vertices[face[0][0]-1]
+            v1 = model.vertices[face[1][0]-1]
+            v2 = model.vertices[face[2][0]-1]
+            if vertCount == 4:
+                v3 = model.vertices[face[3][0]-1]
+                
+            vt0 = model.textcoords[face[0][1]-1]
+            vt1 = model.textcoords[face[1][1]-1]
+            vt2 = model.textcoords[face[2][1]-1]
+            if vertCount == 4:
+                vt3 = model.textcoords[face[3][1]-1]
+
+            vn0 = model.normals[face[0][2]-1]
+            vn1 = model.normals[face[1][2]-1]
+            vn2 = model.normals[face[2][2]-1]
+            if vertCount == 4:
+                vn3 = model.normals[face[3][2]-1]
+                
+            untransformedVerts.append(v0)
+            untransformedVerts.append(v1)
+            untransformedVerts.append(v2)
+            if vertCount == 4:
+                untransformedVerts.append(v0)
+                untransformedVerts.append(v2)
+                untransformedVerts.append(v3)
+            
+            textCoords.append([vt0[0],vt0[1]])
+            textCoords.append([vt1[0],vt1[1]])
+            textCoords.append([vt2[0],vt2[1]])
+            if vertCount==4:
+                textCoords.append([vt0[0],vt0[1]])
+                textCoords.append([vt2[0],vt2[1]])
+                textCoords.append([vt3[0],vt3[1]])
+
+            normals.append(vn0)
+            normals.append(vn1)
+            normals.append(vn2)
+            if vertCount == 4:
+                normals.append(vn0)
+                normals.append(vn2)
+                normals.append(vn3)
+        
+        for i in range(0,len(untransformedVerts),3):
+            for item in untransformedVerts[i]:
+                data.append(item)
+            for item in textCoords[i]:
+                data.append(item)
+            for item in normals[i]:
+                data.append(item) 
+            
+            for item in untransformedVerts[i+1]:
+                data.append(item)
+            for item in textCoords[i+1]:
+                data.append(item)
+            for item in normals[i+1]:
+                data.append(item) 
+            
+            for item in untransformedVerts[i+2]:
+                data.append(item)
+            for item in textCoords[i+2]:
+                data.append(item)
+            for item in normals[i+2]:
+                data.append(item) 
+
         self.vertBuffer = array(data, dtype = float32)
         self.VBO = glGenBuffers(1)
         self.VAO = glGenVertexArrays(1)
         
-        self.position = glm.vec3(0,0,0)
-        self.rotation = glm.vec3(0,0,0)
-        self.scale = glm.vec3(1,1,1)
+        self.translate = translate
+        self.rotation = rotation
+        self.scale = scale
         
     def loadTexture(self, textureName):
         self.textureSurface = pygame.image.load(textureName)
@@ -21,7 +98,7 @@ class Model(object):
     def getModelMatrix(self):
         identity = glm.mat4(1)
         
-        translateMat = glm.translate(identity, self.position)
+        translateMat = glm.translate(identity, self.translate)
         
         #rotation
         pitch = glm.rotate(identity, glm.radians(self.rotation.x), glm.vec3(1,0,0))
@@ -47,7 +124,7 @@ class Model(object):
                               3,
                               GL_FLOAT,
                               GL_FALSE,
-                              4 * 5,
+                              4 * 8,
                               ctypes.c_void_p(0))
         glEnableVertexAttribArray(0)
         
@@ -56,7 +133,7 @@ class Model(object):
                               2,
                               GL_FLOAT,
                               GL_FALSE,
-                              4 * 5,
+                              4 * 8,
                               ctypes.c_void_p(4*3))
     
         glEnableVertexAttribArray(1)
@@ -85,4 +162,4 @@ class Model(object):
                     self.textureData)
         glGenerateTextureMipmap(self.textureBuffer) 
 
-        glDrawArrays(GL_TRIANGLES, 0, int(len(self.vertBuffer) / 5))
+        glDrawArrays(GL_TRIANGLES, 0, int(len(self.vertBuffer) / 8))
