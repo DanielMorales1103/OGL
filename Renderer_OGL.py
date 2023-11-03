@@ -16,11 +16,16 @@ rend = Renderer(screen)
 
 rend.setShaders(vertex_shader, fragment_shader )
 
-triangleData = [-0.5, -0.5, 0.0, 1.0, 0.0, 0.0, 
-                   0,  0.5, 0.0, 0.0, 1.0, 0.0,  
-                   0.5, -0.5, 0.0, 0.0, 0.0, 1.0 ]
+triangleData = [-0.5, -0.5, 0.0,   0.0, 0.0,  
+                -0.5,  0.5, 0.0,   0.0, 1.0,   
+                 0.5, -0.5, 0.0,   1.0, 0.0, 
+                                             
+                 -0.5, 0.5, 0.0,   0.0, 1.0,  
+                 0.5,  0.5, 0.0,   1.0, 1.0,   
+                 0.5, -0.5, 0.0,   1.0, 0.0 ]
 
 triangleModel =  Model(triangleData)
+triangleModel.loadTexture("box.jpg")
 triangleModel.position.z = -5
 triangleModel.scale = glm.vec3(3,3,3)
 

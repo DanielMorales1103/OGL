@@ -1,3 +1,4 @@
+from tkinter import SEL
 import glm 
 from OpenGL.GL import * 
 from OpenGL.GL.shaders import compileProgram, compileShader
@@ -7,12 +8,13 @@ class Renderer(object):
         _,_, self.width, self.height = screen.get_rect()
 
         self.clearColor = [0,0,0]
-
+        glGenerateMipmap(GL_TEXTURE_2D)
         glEnable(GL_DEPTH_TEST)
         glViewport(0,0,self.width,self.height)
 
         self.scene = []        
         self.activeShader = None
+
         
         # ViewMatrix
         self.camPosition = glm.vec3(0,0,0)        
@@ -58,6 +60,7 @@ class Renderer(object):
                                1, GL_FALSE, glm.value_ptr( self.getViewMatrix()) )
             glUniformMatrix4fv( glGetUniformLocation(self.activeShader, "projectionMatrix"), 
                                1, GL_FALSE, glm.value_ptr( self.projectionMatrix) )
+            
             
         
         for obj in self.scene:
