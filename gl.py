@@ -2,6 +2,7 @@ from tkinter import SEL
 import glm 
 from OpenGL.GL import * 
 from OpenGL.GL.shaders import compileProgram, compileShader
+import time
 class Renderer(object):
     def __init__(self, screen):
         self.screen = screen
@@ -11,7 +12,7 @@ class Renderer(object):
         glGenerateMipmap(GL_TEXTURE_2D)
         glEnable(GL_DEPTH_TEST)
         glViewport(0,0,self.width,self.height)
-
+        self.startTime = time.time()
         self.scene = []        
         self.activeShader = None
 
@@ -49,6 +50,8 @@ class Renderer(object):
             self.activeShader = None
 
     def render(self):
+        currentTime = time.time() - self.startTime        
+
         glClearColor(self.clearColor[0],self.clearColor[1],self.clearColor[2],1)
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
         # glClear(16640 | 256)
@@ -60,6 +63,9 @@ class Renderer(object):
                                1, GL_FALSE, glm.value_ptr( self.getViewMatrix()) )
             glUniformMatrix4fv( glGetUniformLocation(self.activeShader, "projectionMatrix"), 
                                1, GL_FALSE, glm.value_ptr( self.projectionMatrix) )
+            
+            glUniform1f(glGetUniformLocation(self.activeShader, "time"), currentTime)
+
             
             
         

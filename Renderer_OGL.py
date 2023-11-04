@@ -14,7 +14,7 @@ clock = pygame.time.Clock()
 
 rend = Renderer(screen)
 
-rend.setShaders(vertex_shader, fragment_shader )
+rend.setShaders(vertex_shader, colors_shader )
 
 # triangleData = [-0.5, -0.5, 0.0,   0.0, 0.0,  
 #                 -0.5,  0.5, 0.0,   0.0, 1.0,   

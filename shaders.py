@@ -31,3 +31,22 @@ void main()
     fragColor = texture(tex, UVs);
 }
 '''
+
+colors_shader = '''
+#version 450 core
+
+uniform float time; 
+
+in vec2 UVs;
+
+out vec4 fragColor;
+
+void main()
+{
+    float red = abs(sin(time)); 
+    float green = abs(sin(time + 2.0944)); 
+    float blue = abs(sin(time + 4.18879)); 
+
+    fragColor = vec4(red, green, blue, 1.0);
+}
+'''
