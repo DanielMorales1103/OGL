@@ -13,16 +13,10 @@ screen = pygame.display.set_mode((width, height), pygame.OPENGL | pygame.DOUBLEB
 clock = pygame.time.Clock()
 
 rend = Renderer(screen)
+rend.setShaders(vertex_shader, fragment_shader)
 
-rend.setShaders(vertex_shader, colors_shader )
 
-# triangleData = [-0.5, -0.5, 0.0,   0.0, 0.0,  
-#                 -0.5,  0.5, 0.0,   0.0, 1.0,   
-#                  0.5, -0.5, 0.0,   1.0, 0.0, 
-                                             
-#                  -0.5, 0.5, 0.0,   0.0, 1.0,  
-#                  0.5,  0.5, 0.0,   1.0, 1.0,   
-#                  0.5, -0.5, 0.0,   1.0, 0.0 ]
+
 model = Model(filename="dino.obj",translate=glm.vec3(0,-1,-5),rotation=glm.vec3(-60,0,-120),scale=glm.vec3(0.3,0.3,0.3))
 model.loadTexture("dino.jpg")
 
@@ -62,7 +56,16 @@ while isRunning:
         rend.camPosition.y += 5 * deltaTime        
     elif keys[K_e]:
         rend.camPosition.y -= 5 * deltaTime
-        
+       
+    if keys[K_1]:
+        rend.setShaders(vertex_shader, colors_shader )
+    elif keys[K_2]:
+        rend.setShaders(vertex_shader, plasma_shaders )
+    elif keys[K_3]:
+        rend.setShaders(breathe_shader, fragment_shader )
+    elif keys[K_4]:
+        rend.setShaders(barca_vertex_shader, barca_shader )
+
     model.rotation.z += 45 * deltaTime
 
     rend.render()    
