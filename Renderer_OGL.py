@@ -96,6 +96,10 @@ while isRunning:
     
     rend.update()
         
+    if keys[K_a]:
+         model.rotation.z += 10 
+    elif keys[K_d]:
+         model.rotation.z -= 10 
     # Cambio de shaders
     if keys[K_1]:
         rend.setShaders(vertex_shader, colors_shader )
