@@ -1,22 +1,35 @@
-# OGL
-Comandos:
-Para cambiar entre objetos:
-Dinosaurio: Tecla u
-Árbol: Tecla i
-Casa: Tecla o
-Torre: Tecla p
+# Guía de Comandos para OGL
 
-Para cambiar entre shaders
-Shaders de colores teclas 1, 2 y 4
-Shader de vertices tecla 3
-Para regresar a shader de textura tecla 0
+Bienvenido a la guía de comandos de OGL. Esta guía te ayudará a navegar y manipular objetos y entornos dentro del programa de manera eficiente y agradable.
 
+## Cambio de Objetos
+Puedes alternar entre diferentes objetos presionando las siguientes teclas:
 
-para girar el objeto en eje z
-teclas 'a' y 'd'
+- **Dinosaurio:** Tecla `U`
+- **Árbol:** Tecla `I`
+- **Casa:** Tecla `O`
+- **Torre:** Tecla `P`
 
-Para el movimiento de la cámara se mueve con los movimientos arriba y hacia abajo del ratón
+## Shaders
+Para experimentar con distintos efectos visuales, utiliza las siguientes teclas para cambiar entre shaders:
 
-Para el zoom in y zoom out se utiliza la rueda del ratón
+- **Shaders de Colores:** Teclas `1`, `2`, `4`
+- **Shader de Vértices:** Tecla `3`
+- **Regresar al Shader de Textura:** Tecla `0`
 
-Hay música al iniciar el programa (poner volumen a la computadora)
+## Control de Objetos
+Para manipular los objetos en el eje Z:
+
+- **Girar a la izquierda:** Tecla `A`
+- **Girar a la derecha:** Tecla `D`
+
+## Cámara y Zoom
+- **Movimiento de Cámara:** Utiliza los movimientos hacia arriba y hacia abajo del ratón.
+- **Zoom:** Utiliza la rueda del ratón para acercar (zoom in) o alejar (zoom out) la vista.
+
+## Música de Fondo
+- Al iniciar el programa, disfrutarás de música de fondo. Asegúrate de tener el volumen de tu computadora activado para una experiencia completa.
+
+---
+
+Esperamos que esta guía mejore tu experiencia con OGL. ¡Disfruta creando y explorando!
