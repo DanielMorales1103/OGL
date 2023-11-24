@@ -139,14 +139,14 @@ class Model(object):
         glEnableVertexAttribArray(1)
 
         # atributos de normales
-        # glVertexAttribPointer(2,
-        #                       3,
-        #                       GL_FLOAT,
-        #                       GL_FALSE,
-        #                       4 * 8,
-        #                       ctypes.c_void_p(4*5))
+        glVertexAttribPointer(2,
+                              3,
+                              GL_FLOAT,
+                              GL_FALSE,
+                              4 * 8,
+                              ctypes.c_void_p(4*5))
     
-        # glEnableVertexAttribArray(2)
+        glEnableVertexAttribArray(2)
 
         # Activar textura
         glActiveTexture( GL_TEXTURE0 )

@@ -31,6 +31,7 @@ class Renderer(object):
         # ViewMatrix
         self.camPosition = glm.vec3(0,0,0)        
         self.camRotation = glm.vec3(0,0,0)
+        self.viewMatrix = self.getViewMatrix()
         
         # Projection Matrix
         self.projectionMatrix = glm.perspective(glm.radians(60), 
@@ -71,7 +72,6 @@ class Renderer(object):
 
         glClearColor(self.clearColor[0],self.clearColor[1],self.clearColor[2],1)
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
-        # glClear(16640 | 256)
 
         if self.activeShader is not None:
             glUseProgram(self.activeShader)
