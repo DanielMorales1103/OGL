@@ -4,6 +4,7 @@ from gl import Renderer
 from model import Model
 from shaders import *
 import glm
+from math import pi,sin,cos
 
 width = 960
 height = 540
@@ -15,14 +16,35 @@ clock = pygame.time.Clock()
 rend = Renderer(screen)
 rend.setShaders(vertex_shader, fragment_shader)
 
+modelDino = "dino.obj"
+textureDino = "dino.jpg"
+
+modelDeadTree = "DeadTree1.obj"
+textureDeadTree1 = "arbol-gris.jpg"
+
+modelhouse = "OldHouse.obj"
+textureHouse = "Housebody.jpg"
+
+modelTower = "tower.obj"
+textureTower = "tower.jpg"
+
+objectPosition = glm.vec3(0,0,-5)
+maxHeight = 2   
+minHeight = -2
+maxZoom = -2
+minZoom = 5
+
+model = Model(filename=modelDino,translate=glm.vec3(0,-1,-5),rotation=glm.vec3(-60,0,-120),scale=glm.vec3(0.3,0.3,0.3))
+model.loadTexture(textureDino)
 
 
-model = Model(filename="dino.obj",translate=glm.vec3(0,-1,-5),rotation=glm.vec3(-60,0,-120),scale=glm.vec3(0.3,0.3,0.3))
-model.loadTexture("dino.jpg")
+#rend.scene.append( model )
+rend.ObjActual = model
 
-
-rend.scene.append( model )
-
+rend.camPosition = glm.vec3(model.translate.xy,0)
+rend.target = model.translate
+rend.camAngle = 0.0
+rend.camRadio = abs(model.translate.z)
 
 isRunning = True
 while isRunning:
@@ -36,27 +58,33 @@ while isRunning:
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_ESCAPE:
                 isRunning = False
-
-    if keys[K_RIGHT]:
-        if rend.clearColor[0] < 1.0:
-            rend.clearColor[0] += deltaTime
-    if keys[K_LEFT]:
-        if rend.clearColor[0] > 0.0:
-            rend.clearColor[0] -= deltaTime
-            
+    
+    #Movimiento de objeto con wasdqe    
     if keys[K_d]:
-        rend.camPosition.x += 5 * deltaTime        
+        rend.camPosition.x += 5 * deltaTime     
+ 
     elif keys[K_a]:
         rend.camPosition.x -= 5 * deltaTime
+    
+
     if keys[K_w]:
-        rend.camPosition.z -= 5 * deltaTime        
+        newZoom = rend.camPosition.z - 5 * deltaTime
+        rend.camPosition.z = max(newZoom, maxZoom)    
     elif keys[K_s]:
-        rend.camPosition.z += 5 * deltaTime
+        newZoom = rend.camPosition.z + 5 * deltaTime
+        rend.camPosition.z = min(newZoom, minZoom)
+        
     if keys[K_q]:
-        rend.camPosition.y += 5 * deltaTime        
+        newHeight = rend.camPosition.y + 5 * deltaTime
+        rend.camPosition.y = min(newHeight, maxHeight)       
     elif keys[K_e]:
-        rend.camPosition.y -= 5 * deltaTime
-       
+        newHeight = rend.camPosition.y - 5 * deltaTime
+        rend.camPosition.y = max(newHeight, minHeight)
+    
+    
+    rend.update()
+        
+    # Cambio de shaders
     if keys[K_1]:
         rend.setShaders(vertex_shader, colors_shader )
     elif keys[K_2]:
@@ -66,7 +94,23 @@ while isRunning:
     elif keys[K_4]:
         rend.setShaders(barca_vertex_shader, barca_shader )
 
-    model.rotation.z += 45 * deltaTime
+    #Cambio de modelos
+    if keys[K_u]:
+        model = Model(filename=modelDino,translate=glm.vec3(0,-1,-5),rotation=glm.vec3(-60,0,-120),scale=glm.vec3(0.3,0.3,0.3))
+        model.loadTexture(textureDino)
+        rend.changeModel( model )
+    elif keys[K_i]:
+        model = Model(filename=modelDeadTree,translate=glm.vec3(0,-1.5,-5),rotation=glm.vec3(0,0,0),scale=glm.vec3(0.3,0.3,0.3))
+        model.loadTexture(textureDeadTree1)
+        rend.changeModel( model )
+    elif keys[K_o]:
+        model = Model(filename=modelhouse,translate=glm.vec3(-1,-1,-5),rotation=glm.vec3(0,0,0),scale=glm.vec3(0.8,0.8,0.8))
+        model.loadTexture(textureHouse)
+        rend.changeModel( model )
+    elif keys[K_p]:
+        model = Model(filename=modelTower,translate=glm.vec3(0,-2,-5),rotation=glm.vec3(0,0,0),scale=glm.vec3(0.4,0.4,0.4))
+        model.loadTexture(textureTower)
+        rend.changeModel( model )
 
     rend.render()    
     pygame.display.flip()
